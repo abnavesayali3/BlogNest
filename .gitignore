@@ -1,6 +1,7 @@
 # Virtual environment
 blog/env/
 blog/staticfiles/
+blog/database_backup/
 
 # Python cache
 __pycache__/
