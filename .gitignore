@@ -20,3 +20,6 @@ blog/db.sqlite3
 # OS files
 .DS_Store
 Thumbs.db
+
+data.json
+blog/data.json
