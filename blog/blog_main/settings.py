@@ -34,9 +34,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com',
+]
+
+# new screate key
+# 7_*^&8y=2r%rr%4erhwn91oivl3qz07iy%zi_&t(fc7*r=fuy7
+
 
 # SECRET_KEY
 # oc#btive91bn&0k6q*pszlzamdu(m9gr07%y=q6-8!r6a=w+0=
