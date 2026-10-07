@@ -36,6 +36,11 @@ SECRET_KEY = os.environ.get(
     'django-insecure-local-development-key-change-this'
 )
 
+CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME')
+CLOUDINARY_API_KEY = os.environ.get('CLOUDINARY_API_KEY')
+CLOUDINARY_API_SECRET = os.environ.get('CLOUDINARY_API_SECRET')
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -63,14 +68,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'cloudinary',
+    'cloudinary_storage',
+
     'blogs',
     'assignments',
-     'crispy_forms',
+    'crispy_forms',
     'crispy_bootstrap4',
     'dashboards',
-
 ]
-
 
 
 MIDDLEWARE = [
@@ -165,6 +172,13 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR /'media'
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
