@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib.sitemaps.views import sitemap
 from blogs.sitemaps import BlogSitemap
 from django.contrib import admin
+from django.views.generic import TemplateView
 from django.urls import include, path
 from . import views
 from django.conf.urls.static import static
@@ -29,15 +30,27 @@ sitemaps = {
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path(
-    'sitemap.xml',
-    sitemap,
-    {'sitemaps': sitemaps},
-    name='django-sitemap'
-),
+        'sitemap.xml',
+        sitemap,
+        {'sitemaps': sitemaps},
+        name='django-sitemap'
+    ),
+
+    path(
+        'robots.txt',
+        TemplateView.as_view(
+            template_name='robots.txt',
+            content_type='text/plain'
+        ),
+        name='robots_txt'
+    ),
+
     path('', views.home, name='home'),
     path('category/', include('blogs.urls')),
     path('blogs/<slug:slug>/', BlogsView.blogs, name='blogs'),
+
     # Search endpoint
     path('search/', BlogsView.search, name='search'),
     path('register/', views.register, name='register'),
