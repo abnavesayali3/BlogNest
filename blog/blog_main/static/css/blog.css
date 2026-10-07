@@ -1,0 +1,154 @@
+/* stylelint-disable selector-list-comma-newline-after */
+
+.blog-header {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.blog-header-logo {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif/*rtl:Amiri, Georgia, "Times New Roman", serif*/;
+  font-size: 2.25rem;
+}
+
+.blog-header-logo:hover {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif/*rtl:Amiri, Georgia, "Times New Roman", serif*/;
+}
+
+.display-4 {
+  font-size: 2.5rem;
+}
+@media (min-width: 768px) {
+  .display-4 {
+    font-size: 3rem;
+  }
+}
+
+.flex-auto {
+  flex: 0 0 auto;
+}
+
+.h-250 { height: 250px; }
+@media (min-width: 768px) {
+  .h-md-250 { height: 250px; }
+}
+
+/* Pagination */
+.blog-pagination {
+  margin-bottom: 4rem;
+}
+
+/*
+ * Blog posts
+ */
+.blog-post {
+  margin-bottom: 4rem;
+}
+.blog-post-title {
+  font-size: 2.5rem;
+}
+.blog-post-meta {
+  margin-bottom: 1.25rem;
+  color: #727272;
+}
+
+/*
+ * Footer
+ */
+.blog-footer {
+  padding: 2.5rem 0;
+  color: #727272;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-top: .05rem solid #e5e5e5;
+}
+.blog-footer p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* Login page */
+#template-bg-1 {
+    background: linear-gradient(135deg, #6f42c1, #9f7aea);
+    min-height: 100vh;
+}
+
+ 
+
+/* #template-bg-1 {
+    background: linear-gradient(135deg, #6C63FF, #4B47C5);
+    min-height: 100vh;
+} */
+
+
+/* Side bar */
+/* Sidebar Container */
+ .sidebar-link {
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  color: #555;
+  font-weight: 500;
+  text-decoration: none;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar-link:hover {
+  background: #f3e8ff;
+  color: #6f42c1;
+  transform: translateX(5px);
+}
+
+.active-link {
+  background: #6f42c1;
+  color: white !important;
+  font-weight: 600;
+}
+
+
+ 
+
+.dashboard-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 15px;
+  border-left: 5px solid #6f42c1;
+  border: 1px solid #eee;
+  transition: 0.3s;
+}
+
+.dashboard-card h2 {
+  color: #6f42c1;
+  font-weight: 700;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border: 1px solid #7543d1;
+
+}
+
+.dashboard-card {
+  border-left: 5px solid #6f42c1;
+  border-radius: 10px;
+}
+
+.icon-box {
+  background: #f3e8ff;
+  color: #6f42c1;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+
+.table tbody tr:hover {
+  background-color: #faf5ff;
+}
+
+
+ 

@@ -1,0 +1,85 @@
+ {% extends 'base.html' %}
+
+{% block content %}
+
+ 
+
+
+ 
+
+ 
+    <!-- Featured Posts -->
+  <h3 class="text-uppercase mb-4" 
+    style="letter-spacing:2px; color:#6f42c1; font-weight:700;">
+  Category - {{ category }}
+</h3>
+  <div class="row mb-2">
+    {% if posts %}
+    {% for post in posts %}
+    <div class="col-md-6 mb-4">
+  <div class="card bg-white shadow-sm h-100" 
+       style="border-radius:15px; overflow:hidden; border:1px solid #eee;">
+
+    <!-- Image -->
+    <img src="{{ post.featured_image.url }}" 
+         style="width:100%; height:200px; object-fit:cover;">
+
+    <!-- Content -->
+    <div class="card-body">
+      <h5>
+        <a href="{% url 'blogs' post.slug %}" 
+           style="color:#212529; font-weight:600;">
+          {{ post.title }}
+        </a>
+      </h5>
+
+      <small class="text-muted">
+        {{ post.created_at | timesince }} ago | {{ post.author }}
+      </small>
+
+      <p class="mt-2">
+        {{ post.short_description | truncatewords:20 }}
+      </p>
+
+      <a href="{% url 'blogs' post.slug %}" 
+         style="color:#6f42c1; font-weight:500;">
+        Read More →
+      </a>
+    </div>
+
+  </div>
+</div>
+    {% endfor %}
+    {% else %}
+    <p>No posts found</p>
+    {% endif %}
+    
+  </div>
+
+
+    {% for post in featured_posts %}
+      {% if not forloop.first %}
+    <div class="col-md-6">
+      <div class="card border-0" >
+        <div class="card-body">
+          <h3><a href="#" class="text-dark">{{ post.title }}</a></h3>
+          <small class="mb-1 text-muted">{{ post.created_at | timesince }} ago | {{ post.author }}</small>
+          <p class="card-text">{{ post.short_description | truncatewords:30 }}</p>
+        </div>
+      </div>
+    </div>
+      {% endif %}
+    {% endfor %}
+    
+  </div>
+{% endblock %}
+
+   
+
+
+
+
+
+ 
+
+ 

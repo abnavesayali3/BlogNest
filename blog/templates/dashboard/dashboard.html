@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+
+.dashboard-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 15px;
+  border-left: 5px solid #6f42c1;
+  border: 1px solid #eee;
+  transition: 0.3s;
+}
+
+.dashboard-card h2 {
+  color: #6f42c1;
+  font-weight: 700;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border: 1px solid #7543d1;
+
+}
+
+.dashboard-card {
+  border-left: 5px solid #6f42c1;
+  border-radius: 10px;
+}
+
+.icon-box {
+  background: #f3e8ff;
+  color: #6f42c1;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+</style>
+
+<div class="row">
+    <!-- Left sidebar -->
+    <!-- load the sidebar here -->
+    {% include 'dashboard/sidebar.html' %}
+
+    <!-- Right side content -->
+    <div class="col-md-9">
+  <p style="color:#555;">Logged in as <b>{{ user }}</b></p>
+
+  <div class="row">
+
+    <!-- Categories Card -->
+   <div class="col-md-6 mb-4">
+      <div class="dashboard-card">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="text-uppercase text-muted">Categories</h6>
+            <h2>{{ category_count }}</h2>
+          </div>
+          <div class="icon-box">
+            <i class="fa fa-list mr-2"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+ 
+          
+
+    <!-- Posts Card -->
+    <div class="col-md-6 mb-4">
+      <div class="dashboard-card">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="text-uppercase text-muted">Posts</h6>
+            <h2>{{ blogs_count }}</h2>
+          </div>
+          <div class="icon-box">
+            <i class="fa fa-file-text"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+<div class="row">
+{% comment %} {% if user.is_superuser or user.is_staff %} {% endcomment %}
+
+{% if user.is_superuser or user.groups.all.0.name == "Manager" %}
+    <!-- User Card -->
+   <div class="col-md-6 mb-4">
+      <div class="dashboard-card">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="text-uppercase text-muted">Users</h6>
+            <h2>{{ user_count }}</h2>
+          </div>
+          <div class="icon-box">
+            <i class="fa fa-users"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endif %}
+ 
+          
+
+    
+  
+
+  </div>
+
+
+
+</div>
+    
+    
+</div>
+
+{% endblock %}

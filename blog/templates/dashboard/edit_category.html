@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<style>
+.card {
+  transition: 0.2s;
+}
+.card:hover {
+  transform: translateY(-2px);
+}
+</style>
+
+{% load crispy_forms_tags %}
+
+<div class="row">
+    <!-- Left sidebar -->
+    <!-- load the sidebar here -->
+    {% include 'dashboard/sidebar.html' %}
+
+    <!-- Right side content -->
+
+    <div class="col-md-9">
+
+  <div class="card p-4 shadow-sm mx-auto" 
+       style="max-width:600px; border-radius:15px; border:1px solid #eee;">
+
+    <!-- Header -->
+    <div class="text-center mb-3">
+     <h4 style="color:#212529; font-weight:700;">
+  <i class="fa fa-edit"></i> Edit Category: 
+  <span style="color:#6f42c1;">{{ category.category_name }}</span>
+</h4>
+      <p class="text-muted" style="font-size:14px;">
+        Update your category details
+      </p>
+    </div>
+
+    <!-- Form -->
+    <form action="{% url 'edit_category' category.id %}" method="POST">
+      {% csrf_token %}
+
+      {{ form|crispy }}
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-between mt-3">
+
+        <!-- Back Button -->
+        <a href="{% url 'categories' %}" 
+           class="btn"
+           style="border-radius:20px; border:1px solid #6f42c1; color:#6f42c1;">
+          ← Back
+        </a>
+
+        <!-- Update Button -->
+        <button type="submit" 
+                class="btn"
+                style="background:#6f42c1; color:white; border-radius:20px; padding:6px 20px;">
+          Update Category
+        </button>
+
+      </div>
+    </form>
+
+  </div>
+
+</div>
+
+
+
+
+</div>
+
+{% endblock %}

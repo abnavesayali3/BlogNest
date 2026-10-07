@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<style>
+ 
+.table tbody tr:hover {
+  background: #f8f5ff;
+  
+}
+</style>
+
+<div class="row">
+    <!-- Left sidebar -->
+    <!-- load the sidebar here -->
+    {% include 'dashboard/sidebar.html' %}
+
+    <!-- Right side content -->
+              <div class="col-md-9">
+
+  <div class="card p-4 shadow-sm" style="border-radius:15px; border:1px solid #eee;">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 style="color:#6f42c1; font-weight:700;">
+        <i class="fa fa-list"></i> All Categories
+        <span class="text-muted" style="font-size:14px;">({{ categories|length }})</span>
+      </h4>
+  {% if user.is_superuser or user.groups.all.0.name == "Manager" or user.groups.all.0.name == "Editor" %}
+  
+      <a href="{% url 'add_category' %}" 
+         class="btn shadow-sm"
+         style="background:#6f42c1; color:white; border-radius:25px; padding:6px 18px;">
+        <i class="fa fa-plus"></i> Add Category
+      </a>
+      {% endif %}
+    </div>
+
+<form method="GET" class="mb-3">
+  <div class="input-group">
+    
+    <input type="text" 
+           name="keyword" 
+           value="{{ request.GET.keyword }}" 
+           class="form-control"
+           placeholder="🔍 Search categories..."
+           style="border-radius:20px 0 0 20px;">
+
+    <button class="btn" 
+            type="submit"
+            style="background:#6f42c1; color:white; border-radius:0 20px 20px 0;">
+      Search
+    </button>
+
+    <a href="{% url 'categories' %}" 
+   class="btn btn-sm ml-2"
+   style="border-radius:20px; border:1px solid #6f42c1; color:#6f42c1;">
+  Reset
+</a>
+
+  </div>
+</form>
+
+{% if request.GET.keyword %}
+  <p class="text-muted mb-2">
+    Showing results for: <b>"{{ request.GET.keyword }}"</b>
+  </p>
+{% endif %}
+
+{% if categories %}
+    <!-- Table -->
+    <div style="overflow:hidden; border-radius:12px;">
+      <table class="table table-hover align-middle mb-0">
+
+        <!-- Table Head -->
+        <thead style="background:#f3e8ff;">
+          <tr>
+            <th>#</th>
+            <th>Category</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+
+        <!-- Table Body -->
+        <tbody>
+          {% if categories %}
+            {% for cat in categories %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+
+              <!-- Category Name -->
+              <td>
+                <b style="color:#333;">{{ cat.category_name }}</b>
+              </td>
+
+              <!-- Dates -->
+              <td>
+                <small class="text-muted">
+                  {{ cat.created_at|date:"M d, Y" }}
+                </small>
+              </td>
+
+              <td>
+                <small class="text-muted">
+                  {{ cat.updated_at|date:"M d, Y" }}
+                </small>
+              </td>
+
+              <!-- Actions -->
+             <td class="text-center">
+
+  <!-- Edit (Admin + Manager + Editor) -->
+  {% if user.is_superuser or user.groups.all.0.name == "Manager" or user.groups.all.0.name == "Editor" %}
+  <a href="{% url 'edit_category' cat.id %}" 
+     class="btn btn-sm"
+     style="background:#e6f4ea; color:green; border-radius:8px;">
+    <i class="fa fa-edit"></i>
+  </a>
+  {% endif %}
+
+  <!-- Delete (ONLY Admin + Manager) -->
+  {% if user.is_superuser or user.groups.all.0.name == "Manager" %}
+  <a href="{% url 'delete_category' cat.id %}" 
+     class="btn btn-sm"
+     style="background:#fdecea; color:red; border-radius:8px;">
+    <i class="fa fa-trash"></i>
+  </a>
+  {% endif %}
+
+</td>
+
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="5" class="text-center p-4">
+                <h6>No Categories Found 😕</h6>
+                <p class="text-muted">Start by adding a new category</p>
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+
+      </table>
+    </div>
+{% else %}
+  <div class="text-center p-4">
+    <h6>No Results Found 😕</h6>
+    <p class="text-muted">Try a different keyword</p>
+  </div>
+{% endif %}
+  </div>
+</div>
+
+
+</div>
+
+{% endblock %}

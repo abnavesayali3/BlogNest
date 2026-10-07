@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ 
+<div class="container mt-4">
+
+ {% for post in featured_posts %}
+    {% if forloop.first %}
+  <div class="jumbotron p-4 p-md-5 text-white rounded"
+     style="background-image: url({{ post.featured_image.url }}); 
+            background-size:cover; 
+            position:relative;">
+
+  <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); border-radius:5px;"></div>
+
+  <div class="col-md-8 px-0" style="position:relative; z-index:2;">
+    <h1 class="display-4 font-italic">{{ post.title }}</h1>
+    <p class="lead my-3">{{ post.short_description | truncatewords:25 }}</p>
+    <p class="lead mb-0">
+      <a href="{% url 'blogs' post.slug %}" class="text-white font-weight-bold">
+        Continue reading...
+      </a>
+    </p>
+  </div>
+</div>
+    {% endif %}
+  {% endfor %}
+
+
+ 
+
+{% comment %}  
+  <!-- Featured Posts -->
+  <h3 class="text-uppercase" style="letter-spacing: 2px; color:#6f42c1; font-weight:700;">
+  Featured Posts
+</h3>
+  <div class="row mb-2">
+    {% for post in featured_posts %}
+      {% if not forloop.first %}
+    <div class="col-md-6">
+      <div class="card border-0" >
+        <div class="card-body">
+          <h3><a href="{% url 'blogs' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
+          <small class="mb-1 text-muted">{{ post.created_at | timesince }} ago | {{ post.author }}</small>
+          <p class="card-text">{{ post.short_description | truncatewords:30 }}</p>
+        </div>
+      </div>
+    </div>
+      {% endif %}
+    {% endfor %}
+    
+  </div> {% endcomment %}
+
+
+   
+
+<!-- Featured Posts -->
+<h3 class="text-uppercase mb-4" 
+    style="letter-spacing: 2px; color:#6f42c1; font-weight:700;">
+  Featured Posts
+</h3>
+
+<div class="row">
+  {% for post in featured_posts %}
+    {% if not forloop.first %}
+    
+    <div class="col-md-6 mb-4">
+      <div class="card bg-white shadow-sm h-100" style="border-radius:15px; overflow:hidden;">
+
+        <!-- Image -->
+    <img src="{{ post.featured_image.url }}" 
+     class="card-img-top" 
+     style="height:200px; object-fit:contain; background:#f9f5ff;">
+
+        <!-- Content -->
+        <div class="card-body">
+          <h5>
+            <a href="{% url 'blogs' post.slug %}" 
+               style="color:#6f42c1; font-weight:600;">
+              {{ post.title }}
+            </a>
+          </h5>
+
+          <small class="text-muted">
+            {{ post.created_at | timesince }} ago | {{ post.author }}
+          </small>
+
+          <p class="card-text mt-2">
+            {{ post.short_description | truncatewords:20 }}
+          </p>
+
+          <a href="{% url 'blogs' post.slug %}" 
+             class="btn btn-sm mt-2"
+             style="background:#6f42c1; color:white; border-radius:20px;">
+            Read More
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    {% endif %}
+  {% endfor %}
+</div>
+
+
+
+<!-- Recent + Sidebar -->
+<div class="container my-5">
+    <div class="row">
+
+       <!-- Recent Articles -->
+ <h3 class="text-uppercase mb-4" 
+    style="letter-spacing:2px; color:#6f42c1; font-weight:700;">
+  Recent Articles
+</h3>
+  <main role="main" class="container p-0">
+    <div class="row">
+      <div class="col-md-8 blog-main">
+        {% for post in posts %}
+        
+         <div class="card bg-white shadow-sm mb-4 p-3" 
+     style="border-radius:12px; border:1px solid #eee;">
+
+  <h4>
+    <a href="{% url 'blogs' post.slug %}" 
+       style="color:#212529; font-weight:600;">
+      {{ post.title }}
+    </a>
+  </h4>
+
+  <small class="text-muted">
+    {{ post.created_at | timesince }} ago | {{ post.author }}
+  </small>
+
+  <p class="mt-2">
+    {{ post.short_description | truncatewords:25 }}
+  </p>
+
+  <a href="{% url 'blogs' post.slug %}" 
+     style="color:#6f42c1; font-weight:500;">
+     Read More →
+  </a>
+
+</div>
+         
+        {% endfor %}
+      </div>
+
+        
+
+
+             <aside class="col-md-4 blog-sidebar">
+        <div class="p-3 mb-5 rounded" style="background:#f3e8ff;">
+          <h4 class="font-italic"  style="color:#6f42c1;font-weight:600;">{{ about.about_heading }}</h4>
+          <p class="mb-0">{{ about.about_description }}</p>
+        </div>
+
+            {% if social_links %}
+        <div class="p-3">
+          <h4 class="font-italic">Follow Us</h4>
+          <ol class="list-unstyled">
+            {% for i in social_links %}
+           <li>
+  <a href="{{ i.link }}" target="_blank" style="color:#6f42c1; font-weight:500;">
+    {{ i.platform }}
+  </a>
+</li>
+            {% endfor %}
+          </ol>
+        </div>
+        {% endif %}
+        </div>
+
+    </div>
+</div>
+
+ 
+{% endblock %}

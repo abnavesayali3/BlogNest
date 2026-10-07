@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<style>
+.table tbody tr {
+  transition: 0.2s;
+}
+.table tbody tr:hover {
+  background: #f8f5ff;
+  transform: scale(1.01);
+}
+</style>
+
+<div class="row">
+    <!-- Left sidebar -->
+    <!-- load the sidebar here -->
+    {% include 'dashboard/sidebar.html' %}
+
+    <!-- Right side content -->
+    <div class="col-md-9">
+
+  <div class="card p-4 shadow-sm" style="border-radius:15px; border:1px solid #eee;">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+     <h4 style="color:#6f42c1; font-weight:700;">
+  <i class="fa fa-file-text"></i> All Posts
+  <span class="text-muted" style="font-size:14px;">({{ posts|length }})</span>
+</h4>
+
+      <a href="{% url 'add_post' %}" 
+         class="btn shadow-sm"
+         style="background:#6f42c1; color:white; border-radius:25px; padding:6px 18px;">
+        <i class="fa fa-plus"></i> Add Post
+      </a>
+    </div>
+
+<form method="GET" class="mb-3">
+  <div class="input-group">
+
+    <input type="text" 
+           name="keyword" 
+           value="{{ request.GET.keyword }}" 
+           class="form-control"
+           placeholder="🔍 Search posts..."
+           style="border-radius:20px 0 0 20px;">
+
+    <button class="btn" 
+            type="submit"
+            style="background:#6f42c1; color:white; border-radius:0 20px 20px 0;">
+      Search
+    </button>
+
+    <a href="{% url 'posts' %}" 
+       class="btn btn-sm ml-2"
+       style="border-radius:20px; border:1px solid #6f42c1; color:#6f42c1;">
+      Reset
+    </a>
+
+  </div>
+</form>
+
+{% if request.GET.keyword %}
+  <div style="background:#f3e8ff; padding:8px 15px; border-radius:10px; display:inline-block; margin-bottom:10px;">
+    🔍 Showing results for: <b>"{{ request.GET.keyword }}"</b>
+  </div>
+{% endif %}
+
+
+{% if posts %}
+    <!-- Table -->
+    <div style="overflow:hidden; border-radius:12px;">
+      <table class="table table-hover align-middle mb-0">
+
+        <thead style="background:#f3e8ff;">
+          <tr>
+            <th>#</th>
+            <th>Post</th>
+            <th>Category</th>
+            <th>Author</th>
+            <th>Status</th>
+            <th>Featured</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for post in posts %}
+          <tr>
+
+            <td>{{ forloop.counter }}</td>
+
+            <!-- Post Title + Image -->
+            <td>
+              <div class="d-flex align-items-center">
+
+                <img src="{{ post.featured_image.url }}" 
+                     style="width:50px; height:50px; object-fit:cover; border-radius:8px; margin-right:10px;">
+
+              <span style="font-weight:600;">
+
+  {% if post.status == "Published" %}
+    <a href="{% url 'blogs' post.slug %}" style="color:#333; text-decoration:none;">
+      {{ post.title|truncatewords:5 }}
+    </a>
+  {% else %}
+    <span class="text-muted">
+      {{ post.title|truncatewords:5 }} <span class="badge badge-warning ml-1">Draft</span>
+    </span>
+  {% endif %}
+
+</span>
+
+              </div>
+            </td>
+
+            <!-- Category -->
+            <td>
+              <span style="background:#f3e8ff; padding:4px 10px; border-radius:10px;">
+                {{ post.category }}
+              </span>
+            </td>
+
+            <!-- Author -->
+            <td>{{ post.author }}</td>
+
+            <!-- Status -->
+            <td>
+              {% if post.status == "Published" %}
+                <span style="color:#28a745; font-weight:600;">✔Published</span>
+              {% else %}
+                <span style="color:#ffc107; font-weight:600;">⏳ Draft</span>
+              {% endif %}
+            </td>
+
+            <!-- Featured -->
+            <td>
+              {% if post.is_featured %}
+                <span style="color:#6f42c1;">⭐ Yes</span>
+              {% else %}
+                <span style="color:#999;"> &nbsp;&nbsp;No</span>
+              {% endif %}
+            </td>
+
+            <!-- Actions -->
+            <td class="text-center">
+
+{% if post.author == user or user.is_superuser or user.groups.all.0.name == "Manager" or user.groups.all.0.name == "Editor" %}
+
+  <a href="{% url 'edit_post' post.id %}" 
+     class="btn btn-sm"
+     style="background:#e6f4ea; color:green; border-radius:8px;">
+    <i class="fa fa-edit"></i>
+  </a>
+
+  <a href="{% url 'delete_post' post.id %}" 
+     class="btn btn-sm"
+     style="background:#fdecea; color:red; border-radius:8px;">
+    <i class="fa fa-trash"></i>
+  </a>
+
+{% endif %}
+
+</td>
+
+          </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+    </div>
+
+   
+{% else %}
+  <div class="text-center p-4">
+    <h5>No Posts Found 😕</h5>
+    <p class="text-muted">Try a different keyword</p>
+  </div>
+{% endif %}
+
+  </div>
+</div>
+
+
+</div>
+
+{% endblock %}

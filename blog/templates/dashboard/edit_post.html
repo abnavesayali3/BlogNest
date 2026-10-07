@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="row">
+    <!-- Left sidebar -->
+    <!-- load the sidebar here -->
+    {% include 'dashboard/sidebar.html' %}
+
+    <!-- Right side content -->
+    <div class="col-md-9">
+
+  <div class="card p-4 shadow-sm mx-auto" 
+       style="max-width:750px; border-radius:15px; border:1px solid #eee;">
+
+    <!-- Header -->
+    <div class="text-center mb-3">
+      <h4 style="color:#212529; font-weight:700;">
+        <i class="fa fa-edit"></i> Edit Post: 
+        <span style="color:#6f42c1;">{{ post.title }}</span>
+      </h4>
+      <p class="text-muted" style="font-size:14px;">
+        Update your blog content
+      </p>
+    </div>
+
+    <!-- Current Image Preview -->
+    {% if post.featured_image %}
+    <div class="text-center mb-3">
+      <img src="{{ post.featured_image.url }}" 
+           style="width:120px; height:120px; object-fit:cover; border-radius:10px;">
+      <p class="text-muted mt-1" style="font-size:13px;">Current Image</p>
+    </div>
+    {% endif %}
+
+    <!-- Form -->
+    <form action="{% url 'edit_post' post.id %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      {{ form|crispy }}
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-between mt-3">
+
+        <!-- Back -->
+        <a href="{% url 'posts' %}" 
+           class="btn"
+           style="border-radius:20px; border:1px solid #6f42c1; color:#6f42c1;">
+          ← Back
+        </a>
+
+        <!-- Update -->
+        <button type="submit" 
+                class="btn"
+                style="background:#6f42c1; color:white; border-radius:20px; padding:6px 20px;">
+          Update Post
+        </button>
+
+      </div>
+    </form>
+
+  </div>
+
+</div>
+
+
+</div>
+
+{% endblock %}
