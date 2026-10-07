@@ -1,5 +1,6 @@
 # Virtual environment
 blog/env/
+blog/staticfiles/
 
 # Python cache
 __pycache__/
